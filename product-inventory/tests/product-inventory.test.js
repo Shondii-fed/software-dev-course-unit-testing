@@ -8,7 +8,7 @@ describe("Calculate the discounted price of a product", () => {
     test("Negative case: Calculate discount if not a number in price parameter", () => {
         expect(calculateDiscount("100", .2)).toBe(null);
     })
-
+    
     test("Negative case: Calculate discount if not a number in discountRate parameter", () => {
         expect(calculateDiscount(100, ".2")).toBe(null);
     })
@@ -37,9 +37,19 @@ describe("Filtering products array", () => {
         {product: "Television", inventory: 14}, 
         {product: "Camera", inventory: 48}
     ];
+    
+    let notAnArr = {product: "Phone"};
 
     test("Positive case: Filter the products array", () => {
         expect(filterProducts(products, (elem) => elem.product[0] === "P")).toEqual([{product: "Phone", inventory: 20}]);
+    })
+    
+    test("Negative case: Products filtered is not an array", () => {
+        expect(filterProducts(notAnArr, (elem) => elem.product[0] === "P")).toBe("I'm sorry, data cannot be filtered.")
+    })
+
+    test("Negative case: Products filtered call back is not a function", () => {
+        expect(filterProducts(products, "product")).toBe("I'm sorry, data cannot be filtered.")
     })
 })
 
@@ -50,14 +60,30 @@ describe("Sorting inventory", () => {
         {product: "Television", inventory: 14}, 
         {product: "Camera", inventory: 48}
     ];
+    let notAnArr = {inventory: 300};
 
     test("Positive case: Sort inventory in ascending order by key", () => {
         expect(sortInventory(products, "inventory")).toEqual([
-        {product: "Television", inventory: 14}, 
-        {product: "Phone", inventory: 20}, 
-        {product: "Laptop", inventory: 32}, 
-        {product: "Camera", inventory: 48}
-    ]);
+            {product: "Television", inventory: 14}, 
+            {product: "Phone", inventory: 20}, 
+            {product: "Laptop", inventory: 32}, 
+            {product: "Camera", inventory: 48}
+        ]); 
     })
 
+    test("Negative case: Return message if not an array of objects", () => {
+        expect(sortInventory(notAnArr, "inventory")).toBe("I'm sorry, unable to sort the inventory.")
+    })
+
+    const id = Symbol("id");
+    let nonStringKey = [
+        {product: "Phone", [id]: 20}, 
+        {product: "Television", [id]: 14}, 
+        {product: "Camera", [id]: 48},
+        {product: "Laptop", [id]: 32} 
+        ];
+
+    test("Negative case: Return message if key is not a string", () => {
+        expect(sortInventory(nonStringKey, id)).toBe("I'm sorry, unable to sort the inventory.")
+    })
 })

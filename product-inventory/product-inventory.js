@@ -15,17 +15,13 @@ function calculateDiscount(price, discountRate) {
 }
 
 function filterProducts(products, callback) {
-    if (!Array.isArray(products) || typeof callback !== 'function') return [];
-    // TODO: Implement filtering logic
+    if (!Array.isArray(products) || typeof callback !== 'function') return "I'm sorry, data cannot be filtered.";
     return products.filter(callback);
 }
 
 function sortInventory(inventory, key) {
-    if (!Array.isArray(inventory) || typeof key !== 'string') return [];
+    if (!Array.isArray(inventory) || typeof key !== 'string') return "I'm sorry, unable to sort the inventory.";
     return [...inventory].sort((a, b) => a[key] - b[key]);
-    // TODO: Implement sorting logic
 }
 
 module.exports = { calculateDiscount, filterProducts, sortInventory };
-
-console.log(sortInventory(products, "inventory"));
